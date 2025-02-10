@@ -1,5 +1,6 @@
 {
     "name": "Current Tempo Price",
     "render_readme": true,
+    "homeassistant": "2025.1.0",
     "domains": ["current_tempo_price"]
 }
