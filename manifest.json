@@ -1,0 +1,10 @@
+{
+  "domain": "current_tempo_price",
+  "name": "Tempo Current Price",
+  "version": "1.0.0",
+  "documentation": "https://github.com/Dodoww/CurrentTempoPrice",
+  "dependencies": [],
+  "codeowners": ["@Dodoww"],
+  "requirements": ["requests"],
+  "config_flow": true
+}
