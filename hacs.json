@@ -1,0 +1,5 @@
+{
+    "name": "Current Tempo Price",
+    "render_readme": true,
+    "domains": ["current_tempo_price"]
+}
