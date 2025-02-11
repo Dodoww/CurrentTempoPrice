@@ -21,29 +21,11 @@ DEFAULT_PRICES = {
     "white_hp": 0.1792,
     "red_hc": 0.1518,
     "red_hp": 0.6586,
+    "price_abo": 13.97",
 }
-DEFAULT_PRIX = {
-    "bleu_hc": 0.1288,
-    "bleu_hp": 0.1552,
-    "blanc_hc": 0.1447,
-    "blanc_hp": 0.1792,
-    "rouge_hc": 0.1518,
-    "rouge_hp": 0.6586,
-}
+
 TEMPO_COLORS = {
     1: "BLEU",
     2: "BLANC",
     3: "ROUGE",
-}
-
-COLOR_MAP = {
-    1: "blue",
-    2: "white",
-    3: "red"
-}
-
-PRIX_TEMPO = {
-    "BLEU": {"HC": 0.1288, "HP": 0.1552},
-    "BLANC": {"HC": 0.1447, "HP": 0.1792},
-    "ROUGE": {"HC": 0.1518, "HP": 0.6586},
-}
+}   

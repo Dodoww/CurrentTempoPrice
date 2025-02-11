@@ -19,6 +19,7 @@ CONFIG_SCHEMA = vol.Schema({
 def generate_options_schema(data):
     """Génère dynamiquement le formulaire avec les valeurs existantes."""
     return vol.Schema({
+        vol.Required("Prix Abonnement", default=data.get("price_abo", 0)): float,
         vol.Required("BLEU HC", default=data.get("blue_hc", DEFAULT_PRICES["blue_hc"])): float,
         vol.Required("BLEU HP", default=data.get("blue_hp", DEFAULT_PRICES["blue_hp"])): float,
         vol.Required("BLANC HC", default=data.get("white_hc", DEFAULT_PRICES["white_hc"])): float,
@@ -62,41 +63,58 @@ class TempoPrixOptionsFlow(config_entries.OptionsFlow):
         errors = {}
 
         if user_input is not None:
-            # Stocke les nouvelles valeurs
-            result = self.async_create_entry(title="", data=user_input)
-            
-            # Déclenche une mise à jour immédiate du coordinator
-            coordinator = self.hass.data[DOMAIN][self.entry.entry_id]
-            await coordinator.async_request_refresh()
-            
-            return result
+            # Convertir les clés du formulaire vers les clés utilisées dans les données
+            new_options = {
+                "price_abo": user_input["Prix Abonnement"],
+                "blue_hc": user_input["BLEU HC"],
+                "blue_hp": user_input["BLEU HP"],
+                "white_hc": user_input["BLANC HC"],
+                "white_hp": user_input["BLANC HP"],
+                "red_hc": user_input["ROUGE HC"],
+                "red_hp": user_input["ROUGE HP"]
+            }
 
-        # Création du schéma avec step de 0.0001 pour tous les champs de prix
+            # Log des nouvelles valeurs
+            _LOGGER.debug("Nouvelles options sauvegardées: %s", new_options)
+
+            try:
+                # Mettre à jour les options de l'entrée
+                return self.async_create_entry(title="", data=new_options)
+            except Exception as err:
+                _LOGGER.error("Erreur lors de la sauvegarde des options: %s", err)
+                errors["base"] = "save_error"
+
+        # Création du schéma avec les valeurs actuelles
+        options = self.entry.options or DEFAULT_PRICES
         schema = {
             vol.Required(
-                "blue_hp", 
-                default=self.entry.options.get("blue_hp", DEFAULT_PRICES["blue_hp"])
+                "Prix Abonnement", 
+                default=options.get("price_abo", DEFAULT_PRICES["price_abo"])
             ): vol.All(float, vol.Range(min=0)),
             vol.Required(
-                "blue_hc", 
-                default=self.entry.options.get("blue_hc", DEFAULT_PRICES["blue_hc"])
+                "BLEU HC", 
+                default=options.get("blue_hc", DEFAULT_PRICES["blue_hc"])
             ): vol.All(float, vol.Range(min=0)),
             vol.Required(
-                "white_hp", 
-                default=self.entry.options.get("white_hp", DEFAULT_PRICES["white_hp"])
+                "BLEU HP", 
+                default=options.get("blue_hp", DEFAULT_PRICES["blue_hp"])
             ): vol.All(float, vol.Range(min=0)),
             vol.Required(
-                "white_hc", 
-                default=self.entry.options.get("white_hc", DEFAULT_PRICES["white_hc"])
+                "BLANC HC", 
+                default=options.get("white_hc", DEFAULT_PRICES["white_hc"])
             ): vol.All(float, vol.Range(min=0)),
             vol.Required(
-                "red_hp", 
-                default=self.entry.options.get("red_hp", DEFAULT_PRICES["red_hp"])
+                "BLANC HP", 
+                default=options.get("white_hp", DEFAULT_PRICES["white_hp"])
             ): vol.All(float, vol.Range(min=0)),
             vol.Required(
-                "red_hc", 
-                default=self.entry.options.get("red_hc", DEFAULT_PRICES["red_hc"])
+                "ROUGE HC", 
+                default=options.get("red_hc", DEFAULT_PRICES["red_hc"])
             ): vol.All(float, vol.Range(min=0)),
+            vol.Required(
+                "ROUGE HP", 
+                default=options.get("red_hp", DEFAULT_PRICES["red_hp"])
+            ): vol.All(float, vol.Range(min=0))
         }
 
         return self.async_show_form(
@@ -104,6 +122,6 @@ class TempoPrixOptionsFlow(config_entries.OptionsFlow):
             data_schema=vol.Schema(schema),
             errors=errors,
             description_placeholders={
-                "step": "0.0001"  # Indique le pas dans la description
+                "step": "0.0001"
             }
-        )                                                                                      
+        )

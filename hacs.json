@@ -1,6 +1,12 @@
 {
+    "domain": "current_tempo_price",
     "name": "Current Tempo Price",
-    "render_readme": true,
-    "homeassistant": "2025.1.0",
-    "domains": ["current_tempo_price"]
-}
+    "version": "1.0.0",
+    "country": "FR",
+    "documentation": "https://github.com/Dodoww/CurrentTempoPrice",
+    "dependencies": [],
+    "codeowners": ["@Dodoww"],
+    "requirements": ["requests"],
+    "config_flow": true
+  }
+  
