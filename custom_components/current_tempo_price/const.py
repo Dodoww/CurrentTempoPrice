@@ -21,7 +21,7 @@ DEFAULT_PRICES = {
     "white_hp": 0.1792,
     "red_hc": 0.1518,
     "red_hp": 0.6586,
-    "price_abo": 13.97",
+    "price_abo": 13.97,
 }
 
 TEMPO_COLORS = {
