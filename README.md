@@ -30,7 +30,7 @@ Une fois l'intégration installée, deux capteurs seront automatiquement créés
     - Affiche le prix du kWh en fonction de l'heure actuelle et de la couleur du jour
     - Unité : €/kWh
 
- `sensor.tempo_total_price`
+ - `sensor.tempo_total_price`
     - Affiche le prix du kWh incluant le coût de l'abonnement
     - Unité : €/kWh
 
